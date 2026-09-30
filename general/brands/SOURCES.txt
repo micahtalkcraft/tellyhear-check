@@ -1,0 +1,67 @@
+ARTICLE IMAGE SOURCES AND LICENCES
+==================================
+
+These files were selected for editorial use in a hearing-aid brand guide. They are sourced from Wikimedia Commons rather than scraped from manufacturer marketing pages, so their reuse terms are clear.
+
+IMPORTANT
+- Keep the required attribution somewhere reasonably accessible on the website or in its image credits page.
+- CC BY-SA images require attribution and ShareAlike for adaptations.
+- The downloaded images are otherwise kept at their sourced dimensions. resound.jpg was converted from CMYK to RGB JPEG for normal web-browser compatibility.
+- This file is a practical source record, not legal advice.
+
+OTICON — oticon.jpg
+Image: Oticon head office in Smørum, Denmark
+Creator: News Oresund / Peter Mulvany
+Licence: Creative Commons Attribution 2.0 (CC BY 2.0)
+Source: https://commons.wikimedia.org/wiki/File:Oticon_headoffice-2_(10470622214).jpg
+Licence: https://creativecommons.org/licenses/by/2.0/
+
+SIGNIA — signia.jpg
+Image: Signia Pure Charge&Go 7IX hearing aids and charger
+Creator: Burkhard Mücke
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:Signia_Hearing_Aids_08.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
+
+PHONAK — phonak.jpg
+Image: Sonova / Phonak headquarters in Stäfa, Switzerland
+Creator: Andreas Faessler
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:Sonova_phonak.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
+
+UNITRON — unitron.jpg
+Image: Unitron hearing aid
+Creator: RespectCE
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:Unitron_Ziel_photo_3.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
+
+WIDEX — widex.jpg
+Image: Widex receiver-in-canal hearing aid
+Creator: RespectCE
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:Widex_HA_photo_1.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
+
+STARKEY — starkey.jpg
+Image: William F. Austin Center / Starkey campus in Eden Prairie, Minnesota
+Creator: PixelAnimator
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:William_F._Austin,_Corporate_Seasonal_Campus_2023.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
+
+RESOUND — resound.jpg
+Image: ReSound Alera hearing aid, 2010
+Creator: GN ReSound
+Licence: Creative Commons Attribution-ShareAlike 3.0 (CC BY-SA 3.0; source page also lists GFDL)
+Source: https://commons.wikimedia.org/wiki/File:Resound-alera-nanotech.jpg
+Licence: https://creativecommons.org/licenses/by-sa/3.0/
+Note: Technical colour-space conversion from CMYK to RGB was applied for web compatibility.
+
+BELTONE — beltone.jpg
+Image: Beltone hearing aids from the 1940s, 1950s and 1960s
+Creator: Karitxa
+Licence: Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+Source: https://commons.wikimedia.org/wiki/File:Beltone_hearing_aids_from_the_1940s,_1950s,_and_1960s_front_view.jpg
+Licence: https://creativecommons.org/licenses/by-sa/4.0/
