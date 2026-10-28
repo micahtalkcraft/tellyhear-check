@@ -1,0 +1,1 @@
+const e="th_offer";function r(){try{return(localStorage.getItem(e)||"").trim().toUpperCase()}catch{return""}}function f(t){try{localStorage.setItem(e,t.trim().toUpperCase())}catch{}}function o(){try{localStorage.removeItem(e)}catch{}}function a(t){typeof t=="string"&&t.startsWith("code_offer")&&t!=="code_offer_busy"&&o()}export{o as c,r as g,a as h,f as s};
