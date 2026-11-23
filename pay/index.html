@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Secure checkout | TellyHear</title>
+<link rel="icon" href="/favicon.ico">
+<!--
+  Payment link: /pay/?p=<product slug>&s=both|left|right&c=<colour>&o=<audiogram code>
+  Goes straight to Stripe's payment page for that one hearing aid (or pair), with the $500
+  audiogram discount applied when a valid code is included. Made by the CRM's "Payment link"
+  button. A fresh Stripe session is made on every visit, so the link never goes stale.
+-->
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #fff; color: #1d2733; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { width: 100%; max-width: 420px; padding: 32px 24px; text-align: center; }
+  img.logo { width: 44px; height: 44px; margin: 0 auto 26px; display: block; }
+  .spin { width: 22px; height: 22px; margin: 0 auto 16px; border: 2.5px solid #dfe6ee; border-top-color: #0f5fa6; border-radius: 50%; animation: s .8s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation-duration: 2.4s; } }
+  h1 { font: 400 26px/1.25 Georgia, "Times New Roman", serif; margin: 0 0 10px; }
+  p { margin: 0 0 20px; color: #4a5866; }
+  .muted { color: #6b7886; font-size: 15px; }
+  button, a.btn { display: inline-block; font: 600 17px/1 inherit; font-family: inherit; color: #fff; background: #0f5fa6; border: 0; border-radius: 12px; padding: 16px 24px; cursor: pointer; text-decoration: none; }
+  button:focus-visible, a:focus-visible { outline: 3px solid #9cc9f0; outline-offset: 2px; }
+  a { color: #0f5fa6; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="/email/logo-icon.png" alt="TellyHear">
+  <div id="wait">
+    <div class="spin" aria-hidden="true"></div>
+    <p class="muted" role="status">Opening secure checkout</p>
+  </div>
+  <div id="expired" hidden>
+    <h1 id="exTitle">Your $500 discount has expired</h1>
+    <p id="exText">Call us on <a href="tel:0477965027">0477 965 027</a> and we'll send you a new link, or continue at the normal price.</p>
+    <button id="noCode" type="button">Continue to checkout</button>
+  </div>
+  <div id="bad" hidden>
+    <h1>This link isn't working</h1>
+    <p>Please call us on <a href="tel:0477965027">0477 965 027</a> and we'll sort it out straight away.</p>
+  </div>
+</main>
+<script>
+  (function () {
+    var FN = 'https://stjzecfcjgwnmzaeuzcf.supabase.co/functions/v1/create-checkout';
+    var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0anplY2Zjamd3bm16YWV1emNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0NjY5NzIsImV4cCI6MjEwMDA0Mjk3Mn0.PHaZ0fdBgcUe9n2RJ0KevSb7ETWo8PrB0yR-eWGAAwE';
+    var q = new URLSearchParams(location.search);
+    var slug = (q.get('p') || '').trim();
+    var side = { both: 'Both sides', left: 'Left side', right: 'Right side' }[(q.get('s') || 'both').toLowerCase()];
+    var colour = (q.get('c') || '').trim().slice(0, 40);
+    var code = (q.get('o') || '').trim().toUpperCase();
+    if (!/^[a-z0-9-]{2,80}$/.test(slug) || !side || (code && !/^[A-Z0-9-]{6,40}$/.test(code))) return show('bad');
+    var variant = [side, colour].filter(Boolean).join(' · ');
+    function show(id) { ['wait', 'expired', 'bad'].forEach(function (x) { document.getElementById(x).hidden = x !== id; }); }
+    function store(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (_) {} }
+    // The discount follows them around the shop too, like the approval link.
+    if (code) store('th_offer', code);
+
+    function go(product, withCode) {
+      var price = product ? product.price * (side === 'Both sides' ? 2 : 1) : 0;
+      if (product) store('th_last_order', JSON.stringify({ items: [{ fullName: product.fullName, name: product.name, variant: variant, qty: 1, image: product.image, price: price }] }));
+      return fetch(FN, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: 'Bearer ' + ANON },
+        body: JSON.stringify({
+          items: [{ slug: slug, variant: variant, qty: 1 }],
+          offerCode: withCode ? code : '',
+          successUrl: location.origin + '/order-confirmed/?session_id={CHECKOUT_SESSION_ID}',
+          cancelUrl: location.origin + (product && product.url ? product.url : '/hearing-aids/')
+        })
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); }).then(function (res) {
+        var d = res.d || {};
+        if (res.ok && d.url) {
+          if (d.id && d.confirm_token) store('th_confirm:' + d.id, d.confirm_token);
+          location.replace(d.url);
+          return;
+        }
+        if (String(d.error || '').indexOf('code_offer') === 0 && d.error !== 'code_offer_busy') {
+          store('th_offer', null);
+          if (d.error === 'code_offer_used') {
+            document.getElementById('exTitle').textContent = 'Your $500 discount has already been used';
+            document.getElementById('exText').innerHTML = 'Call us on <a href="tel:0477965027">0477 965 027</a> if that doesn\'t sound right, or continue at the normal price.';
+          } else if (d.error === 'code_offer_invalid') {
+            document.getElementById('exTitle').textContent = 'Your $500 discount code isn\'t valid';
+          }
+          document.getElementById('noCode').onclick = function () { show('wait'); go(product, false); };
+          return show('expired');
+        }
+        show('bad');
+      }).catch(function () { show('bad'); });
+    }
+
+    fetch('/catalogue.json').then(function (r) { return r.json(); }).catch(function () { return {}; }).then(function (cat) {
+      var product = cat && cat[slug];
+      if (!product) return show('bad');
+      go(product, !!code);
+    });
+  })();
+</script>
+</body>
+</html>

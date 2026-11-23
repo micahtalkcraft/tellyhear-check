@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Unsubscribe | TellyHear</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; background: #f4f6f8; color: #1d2733; font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width: 480px; margin: 12vh auto 0; padding: 36px 28px 32px; background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(16, 32, 48, .06); }
+  img { display: block; width: 40px; height: 40px; margin-bottom: 22px; }
+  h1 { font: 400 28px/1.25 Georgia, "Times New Roman", serif; margin: 0 0 12px; }
+  p { margin: 0 0 22px; color: #4a5866; }
+  button { font: 600 17px/1 inherit; font-family: inherit; color: #fff; background: #0f5fa6; border: 0; border-radius: 10px; padding: 15px 22px; cursor: pointer; }
+  button:focus-visible { outline: 3px solid #9cc9f0; outline-offset: 2px; }
+  button[disabled] { opacity: .6; cursor: default; }
+  a { color: #0f5fa6; }
+  @media (max-width: 520px) { main { margin: 24px 16px; padding: 28px 22px; } }
+</style>
+</head>
+<body>
+<main>
+  <img src="/email/logo-icon.png" alt="TellyHear">
+  <div id="ask">
+    <h1>Stop these emails?</h1>
+    <p>You'll stop getting Lachlan's follow-up emails about your hearing aid quote.</p>
+    <button id="go" type="button">Unsubscribe</button>
+  </div>
+  <div id="done" hidden>
+    <h1>You're unsubscribed</h1>
+    <p>You won't get any more of these emails. If you have a question, call us on <a href="tel:0477965027">0477 965 027</a>.</p>
+  </div>
+  <div id="bad" hidden>
+    <h1>This link isn't working</h1>
+    <p>To stop our emails, reply to any of them with "unsubscribe", or call us on <a href="tel:0477965027">0477 965 027</a>.</p>
+  </div>
+</main>
+<script>
+  (function () {
+    var t = new URLSearchParams(location.search).get('t') || '';
+    var show = function (id) { ['ask', 'done', 'bad'].forEach(function (x) { document.getElementById(x).hidden = x !== id; }); };
+    if (!/^[0-9a-f]{64}$/.test(t)) { show('bad'); return; }
+    var btn = document.getElementById('go');
+    btn.addEventListener('click', function () {
+      btn.disabled = true; btn.textContent = 'One moment';
+      fetch('https://stjzecfcjgwnmzaeuzcf.supabase.co/functions/v1/crm-unsubscribe', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: t })
+      }).then(function (r) { show(r.ok ? 'done' : 'bad'); }).catch(function () { show('bad'); });
+    });
+  })();
+</script>
+</body>
+</html>

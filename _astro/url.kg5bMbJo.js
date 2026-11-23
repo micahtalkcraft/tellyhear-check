@@ -1,0 +1,1 @@
+const r="/".replace(/\/$/,"");function n(t){if(!t)return r||"/";if(/^(https?:|mailto:|tel:|\/\/)/.test(t)||t.startsWith("#"))return t;if(t.startsWith("/")||(t="/"+t),t==="/")return(r||"")+"/";const[,e,s]=t.match(/^([^?#]*)(.*)$/),i=/\.[a-z0-9]+$/i.test(e);return r+(i||e.endsWith("/")?e:e+"/")+s}export{n as u};
