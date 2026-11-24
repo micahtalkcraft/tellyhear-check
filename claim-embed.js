@@ -11,7 +11,20 @@
 (function () {
   var q = new URLSearchParams(location.search);
   if (!q.has('claim')) return;
-  var post = function (type) { try { window.parent.postMessage({ th: 'claim', type: type }, '*'); } catch (e) {} };
+  // Same rule as the check's own claim code: claim mode only counts when the page framing us is one
+  // of TellyHear's own (or localhost while building; ?dev on its own tab for testing), and every
+  // message goes to that exact origin, never '*'. Anywhere else this file does nothing.
+  var ALLOWED = /^https:\/\/((www|check)\.)?tellyhear\.com\.au$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  var parentOrigin = (function () {
+    if (window.parent === window) return q.has('dev') ? location.origin : '';
+    try {
+      var anc = location.ancestorOrigins;
+      var o = anc && anc.length ? anc[0] : (document.referrer ? new URL(document.referrer).origin : '');
+      return ALLOWED.test(o) ? o : '';
+    } catch (e) { return ''; }
+  })();
+  if (!parentOrigin) return;
+  var post = function (type) { try { window.parent.postMessage({ th: 'claim', type: type }, parentOrigin); } catch (e) {} };
   var html = document.documentElement;
   html.classList.add('th-claim');
 
@@ -68,6 +81,7 @@
 
   // dev: the claim flow's dev panel drives this page's own dev jumps (this page's panel is hidden under ?claim)
   window.addEventListener('message', function (e) {
+    if (e.origin !== parentOrigin || e.source !== window.parent) return; // only the claim flow that frames us
     var d = e.data; if (!d || d.th !== 'claim-dev' || !d.jump) return;
     var b = document.querySelector('.atdev button[data-k="' + String(d.jump).replace(/"/g, '') + '"]');
     if (b) b.click();

@@ -65,7 +65,9 @@
     const LIVE = /^((www|check)\.)?tellyhear\.com\.au$/.test(location.hostname);
     const send = (event, extra) => {
       if (!LIVE) return;
-      const p = Object.assign({ event, vid, sid, page: location.pathname }, extra || {});
+      // On check.tellyhear.com.au the home page is the hearing test: label it as such in the CRM.
+      const page = location.hostname === 'check.tellyhear.com.au' && location.pathname === '/' ? '/audiogram-test/' : location.pathname;
+      const p = Object.assign({ event, vid, sid, page }, extra || {});
       if (event === 'form_submit' || event === 'contact_captured') { p.ft = get('th_ft'); p.lt = get('th_lt'); }
       try {
         rawFetch(URL, {
