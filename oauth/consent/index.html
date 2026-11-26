@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Connecting to TellyHear Admin</title>
+<!-- ChatGPT or Grok connecting the TellyHear CRM connector: Supabase Auth sends the person to
+     the Site URL plus /oauth/consent/. The Allow page lives in TellyHear Admin, so pass the
+     authorization id straight on. Nothing else is read or kept here. -->
+<script>
+(function () {
+  var id = new URLSearchParams(location.search).get('authorization_id') || '';
+  if (/^[\w-]{8,100}$/.test(id)) {
+    location.replace('https://admin.tellyhear.com.au/oauth/consent?authorization_id=' + encodeURIComponent(id));
+  } else {
+    document.documentElement.className = 'bad';
+  }
+})();
+</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #fff; color: #1f2a37; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 0 16px; }
+  .msg { display: none; }
+  .bad .go { display: none; }
+  .bad .msg { display: block; }
+</style>
+</head>
+<body>
+  <p class="go">Opening TellyHear Admin…</p>
+  <p class="msg">This link is not valid. Start again from the app you were connecting.</p>
+</body>
+</html>

@@ -2,6 +2,7 @@
    Only acts when the URL has ?claim, so check.tellyhear.com.au and /audiogram-test are untouched.
    Everything the person sees is the check's own page and code; this only:
      1. swaps the welcome photo for the claim photo (Lachlan with Micah) and frames it in the panel,
+        mirrored like the claim flow on a computer (white on the left, photo panel on the right),
      2. starts at step 2 (headphones or speakers), as if Begin was pressed, with no animation
         (the claim flow plays the same sweep itself, then fades this page in on top),
      3. hands the X back to the claim flow,
@@ -32,12 +33,34 @@
   css.textContent = [
     'html.th-claim-instant *, html.th-claim-instant *::before, html.th-claim-instant *::after { transition: none !important; animation: none !important; }',
     'html.th-claim .atw-bg { object-position: 55% 30% !important; }',
-    'html.th-claim .atdev { display: none !important; }'
+    'html.th-claim .atdev { display: none !important; }',
+    // The claim flow's screens are mirrored (white on the left, photo panel on the right), so on a
+    // computer the check is mirrored the same way while it runs inside the claim. Layout only: the
+    // check's own screens, words and steps are untouched. Not used on phones (stacked layout).
+    '@media (min-width: 961px) {',
+    '  html.th-claim .atw-side { left: auto !important; right: 0 !important; }',
+    '  html.th-claim .atw-bg { left: auto !important; right: 0 !important; }',
+    '  html.th-claim .atw-sheet { left: 0 !important; right: 60% !important; transition: right .62s cubic-bezier(.65, 0, .3, 1) !important; }',
+    '  html.th-claim .atw-sheet::before { left: 0 !important; right: 60px !important; transition: right .62s cubic-bezier(.65, 0, .3, 1) !important; }',
+    '  html.th-claim .atw-arc { left: auto !important; right: -10px !important; transform: scaleX(-1); transition: right .62s cubic-bezier(.65, 0, .3, 1), width .62s cubic-bezier(.65, 0, .3, 1) !important; }',
+    '  html.th-claim .atw.is-setup .atw-sheet, html.th-claim .atw.is-setup .atw-sheet::before { right: 0 !important; }',
+    '  html.th-claim .atw.is-setup .atw-arc { right: 0 !important; width: 0 !important; }',
+    '  html.th-claim .at .at-prog { transition: opacity .35s ease, right .62s cubic-bezier(.65, 0, .3, 1) !important; }',
+    '}',
+    '@media (min-width: 1100px) {',
+    '  html.th-claim .atw.is-setup .atw-sheet { right: var(--panel) !important; }',
+    '  html.th-claim .atw.is-setup .atw-arc { right: -26px !important; width: 26px !important; }',
+    '  html.th-claim .atw-ptop, html.th-claim .atw-pcopy { left: auto !important; right: 52px !important; }',
+    '  html.th-claim .atw.is-full .atw-sheet { right: 0 !important; }',
+    '  html.th-claim .atw.is-full .atw-arc { right: 0 !important; width: 0 !important; }',
+    '  html.th-claim .atw.is-full .atw-bg { transform: translateX(calc(var(--pan) + 140px)) !important; }',
+    '  html.th-claim.atw-on:not(.atw-full) .at .at-prog { left: 0 !important; right: var(--panel) !important; }',
+    '}'
   ].join('\n');
   document.head.appendChild(css);
 
-  // Frame the claim photo in the panel: put the focus point (Lachlan) in the middle of the panel.
-  // Same sums as the claim flow, so both line up exactly.
+  // Frame the claim photo in the panel: put the focus point (Lachlan) in the middle of the panel,
+  // which is on the right (mirrored, see above). Same sums as the claim flow, so both line up exactly.
   var FOCUS_X = 0.6, POS_X = 0.55;
   // ?pw = the claim flow's photo width, so the photo here is cropped and framed exactly like it
   var PW = parseInt(q.get('pw') || '0', 10) || 0;
@@ -50,7 +73,8 @@
     var ar = (img.naturalWidth || 1600) / (img.naturalHeight || 1200);
     var rw = Math.max(W, H * ar), ox = (W - rw) * POS_X;
     var panel = Math.min(520, Math.max(340, window.innerWidth * 0.3));
-    root.style.setProperty('--pan', Math.round(panel / 2 - (ox + rw * FOCUS_X)) + 'px');
+    // the photo is pinned to the right edge (W wide), so the panel's middle is W - panel / 2 into it
+    root.style.setProperty('--pan', Math.round(W - panel / 2 - (ox + rw * FOCUS_X)) + 'px');
   }
   window.addEventListener('resize', setPan);
 

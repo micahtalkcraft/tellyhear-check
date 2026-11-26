@@ -30,7 +30,7 @@
     </script><!-- End Meta Pixel Code --><link rel="stylesheet" href="/_astro/privacy-policy.nt7TwS11.css">
 <style>.footer-subscribe[data-astro-cid-sz7xmlte]{border-bottom:1px solid rgba(255,255,255,.12);padding:8px 0 34px;margin-bottom:34px}.footer-subscribe-inner[data-astro-cid-sz7xmlte]{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}.footer-subscribe-copy[data-astro-cid-sz7xmlte] h3[data-astro-cid-sz7xmlte]{margin:0 0 6px;color:#fff;font-size:1.25rem;line-height:1.2}.footer-subscribe-copy[data-astro-cid-sz7xmlte] p[data-astro-cid-sz7xmlte]{margin:0;color:#ffffffb8;font-size:.95rem;line-height:1.5;max-width:460px}.footer-subscribe-form[data-astro-cid-sz7xmlte]{display:flex;flex-wrap:wrap;gap:10px;align-items:center;flex:1 1 340px;max-width:460px}.footer-subscribe-form[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte]{flex:1 1 200px;min-width:0;padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#ffffff0f;color:#fff;font-size:.95rem}.footer-subscribe-form[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte]::placeholder{color:#ffffff80}.footer-subscribe-form[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte]:focus{outline:none;border-color:var(--orange-500);background:#ffffff1a}.footer-subscribe-form[data-astro-cid-sz7xmlte] button[data-astro-cid-sz7xmlte]{padding:13px 24px;border-radius:10px;border:0;background:var(--orange-500);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .15s ease;white-space:nowrap}.footer-subscribe-form[data-astro-cid-sz7xmlte] button[data-astro-cid-sz7xmlte]:hover{background:var(--orange-600)}.footer-subscribe-msg[data-astro-cid-sz7xmlte]{flex-basis:100%;margin:2px 0 0;min-height:1em;font-size:.85rem;color:#7ce0b0}@media(max-width:700px){.footer-subscribe-form[data-astro-cid-sz7xmlte] input[data-astro-cid-sz7xmlte],.footer-subscribe-form[data-astro-cid-sz7xmlte] button[data-astro-cid-sz7xmlte]{flex:1 1 100%;width:100%}}.sr-only[data-astro-cid-sz7xmlte]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:720px){.footer-subscribe-inner[data-astro-cid-sz7xmlte]{flex-direction:column;align-items:flex-start}.footer-subscribe-form[data-astro-cid-sz7xmlte]{flex:0 0 auto;max-width:none;width:100%}}@media(max-width:720px){.footer-subscribe-msg[data-astro-cid-sz7xmlte]:empty{display:none;min-height:0;margin:0}.footer-subscribe-form[data-astro-cid-sz7xmlte]{gap:10px}}@media(max-width:720px){.footer-subscribe-inner[data-astro-cid-sz7xmlte]{align-items:center;text-align:center}.footer-subscribe-copy[data-astro-cid-sz7xmlte] p[data-astro-cid-sz7xmlte]{margin-left:auto;margin-right:auto}.footer-subscribe-form[data-astro-cid-sz7xmlte]{justify-content:center}.footer-subscribe-msg[data-astro-cid-sz7xmlte]{text-align:center}}.footer[data-astro-cid-sz7xmlte] ul[data-astro-cid-sz7xmlte].footer-social{list-style:none;display:flex;flex-direction:row;gap:10px;margin:18px 0 0;padding:0}.footer-social[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#ffffff14;color:#fff;transition:background .15s ease,transform .15s ease}.footer-social[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{background:var(--orange-500);color:#fff;transform:translateY(-2px)}@media(max-width:720px){.footer[data-astro-cid-sz7xmlte] ul[data-astro-cid-sz7xmlte].footer-social{justify-content:center}}.footer-credit[data-astro-cid-sz7xmlte]{flex-basis:100%;margin:6px 0 0;font-size:.78rem;color:#ffffff73}
 </style>
-<link rel="stylesheet" href="/_astro/get-my-options.ywztoIsL.css"></head> <body> <!-- Meta Pixel fallback for browsers without JavaScript (an <img> isn't valid inside <head>). --> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2214592906104476&ev=PageView&noscript=1" alt=""></noscript> <a class="skip" href="#main">Skip to content</a>   <script>
+<link rel="stylesheet" href="/_astro/get-my-options.Ch9z4ZUO.css"></head> <body> <!-- Meta Pixel fallback for browsers without JavaScript (an <img> isn't valid inside <head>). --> <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2214592906104476&ev=PageView&noscript=1" alt=""></noscript> <a class="skip" href="#main">Skip to content</a>   <script>
   (() => {
     if (window.thTrack) return;
     const URL = 'https://stjzecfcjgwnmzaeuzcf.supabase.co/rest/v1/rpc/crm_track';
@@ -466,6 +466,8 @@
     try { lead = JSON.parse(sessionStorage.getItem('th_lead') || 'null'); sessionStorage.removeItem('th_lead'); } catch (_) {}
     if (lead && !(lead.at && Date.now() - lead.at < 10 * 60 * 1000)) lead = null;
     const known = !!(lead && lead.name && lead.email);
+    // /get-a-quote (the header button) also offers an optional message box under the postcode.
+    const askMessage = location.pathname.startsWith('/get-a-quote');
     const given = {};
     if (lead && lead.audiogram) given.audiogram = lead.audiogram;
     if (lead && lead.shopping) given.shopping = lead.shopping;
@@ -498,8 +500,10 @@
 
     // Each answer id becomes a labelled line in the team's lead email (enquiringFor -> "Enquiring for").
     const A = {};
-    // Came from a Get Best Price button on a landing page: that model is the first option, already ticked.
-    const pickedModel = known && typeof lead.model === 'string' ? lead.model.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+    // Came from a Get Best Price button on a landing page, or a product page's "Get help choosing"
+    // link (/get-a-quote/?product=...): that model is the first option, already ticked.
+    const askedModel = known && typeof lead.model === 'string' ? lead.model : (new URLSearchParams(location.search).get('product') || '');
+    const pickedModel = askedModel.replace(/\s+/g, ' ').trim().slice(0, 80);
     if (pickedModel) A.hearingAidType = pickedModel;
     const typeOptions = () => pickedModel
       ? [pickedModel, 'Behind-the-ear hearing aids', 'Receiver-in-canal hearing aids', 'Invisible hearing aids', 'Another brand or model', 'I’m not sure yet']
@@ -655,6 +659,7 @@
       } else {
         html += '<form class="hq-form" id="hqForm" novalidate>' +
           '<div class="hq-field hq-field--pc"><label class="hq-sr" for="hq-postcode">Postcode</label><input id="hq-postcode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="4" pattern="[0-9]{4}" placeholder="e.g. 3039" required value="' + esc(A.postcode || '') + '" /></div>' +
+          (askMessage ? '<div class="hq-field hq-field--msg"><label for="hq-message">Message <span class="hq-opt-l">(optional)</span></label><textarea id="hq-message" rows="4" maxlength="2000" placeholder="Anything else you’d like us to know?">' + esc(A.message || '') + '</textarea></div>' : '') +
           '<input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-5000px;width:1px;height:1px;opacity:0;" />' +
           '<button type="submit" class="hq-next hq-submit">Request My Free Quote</button>' +
           '<p class="hq-note">By submitting, you agree to be contacted by TellyHear about your enquiry. See our <a href="/privacy-policy/">Privacy Policy</a>.</p></form>';
@@ -716,10 +721,12 @@
     // they finish (or a DIDN'T FINISH text if they stop), not a half-empty one now.
     if (known) queue('update');
 
-    // Finished: the thank-you page has its own URL so the completed form can be tracked.
+    // Finished: the thank-you page has its own URL so the completed form can be tracked
+    // (/get-a-quote has its own copy, so its conversions are counted separately).
     const done = () => {
       barEl.style.width = '100%';
-      location.href = '/get-my-options/thank-you/' + (given.audiogram === 'Yes' || A.audiogram === 'Yes' ? '?audiogram=yes' : '');
+      const thanks = location.pathname.startsWith('/get-a-quote') ? '/get-a-quote/thank-you/' : '/get-my-options/thank-you/';
+      location.href = thanks + (given.audiogram === 'Yes' || A.audiogram === 'Yes' ? '?audiogram=yes' : '');
     };
 
     const wire = (st) => {
@@ -798,11 +805,15 @@
       } else {
         const f = document.getElementById('hqForm');
         const pc = f.querySelector('#hq-postcode');
+        const msg = f.querySelector('#hq-message');
         pc.addEventListener('input', () => { pc.value = pc.value.replace(/\D/g, '').slice(0, 4); });
+        // Kept as they type, so going Back and returning doesn't lose it; sent with the postcode.
+        if (msg) msg.addEventListener('input', () => { A.message = msg.value.trim(); });
         f.addEventListener('submit', async (e) => {
           e.preventDefault();
           if (!f.reportValidity()) return;
           A.postcode = pc.value.trim();
+          if (msg) A.message = msg.value.trim();
           const btn = f.querySelector('.hq-submit'); const err = document.getElementById('hqErr');
           err.hidden = true; btn.disabled = true; btn.textContent = 'Sending…';
           try {
